@@ -1,5 +1,8 @@
 # streamlit-letsplot
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/randyzwitch/streamlit-letsplot/examples/streamlit_app.py)
+
+
 This is a work-in-progress, providing a convenience function to plot charts from the [Lets-Plot](https://lets-plot.org/) visualization library.
 
 ## Example usage
