@@ -21,18 +21,30 @@ def st_letsplot(plot, scrolling=True):
 
     plot_dict = plot.as_dict()
     if isinstance(plot, PlotSpec):
-        height=plot_dict["ggsize"]["height"]
-        width=plot_dict["ggsize"]["width"]
+        width, height = get_ggsize_or_default(plot_dict, default=500)
     elif isinstance(plot, GGBunch):
-        height=sum([x["feature_spec"]["ggsize"]["height"] for x in plot_dict["items"]])
-        width=sum([x["feature_spec"]["ggsize"]["width"] for x in plot_dict["items"]])
+        # the inner list comprehension is a list of (width, height) tuples
+        # the outer consists of two elements [sum(widths), sum(heights)]
+        width, height = [sum(y) for y in zip(*[get_ggsize_or_default(x["feature_spec"], default=500) for x in plot_dict["items"]])]
     else:
         height=500
         width=500
 
     # 20 an aribtrary pad to remove scrollbars from iframe, consider if worth removing
     return components.html(_as_html(plot_dict),
-        height=height + 20,
-        width=width + 20,
-        scrolling=scrolling,
-    )
+                           height=height + 20,
+                           width=width + 20,
+                           scrolling=scrolling,
+                           )
+
+def get_ggsize_or_default(plot_dict, default=500) -> (int, int):
+    """
+    Returns a tuple consisting of the width and height of the plot
+    Lookup if there is a ggsize specification. If not return default value.
+    :param plot_dict:
+    :param default:
+    :return: width, height
+    """
+    if 'ggsize' in plot_dict.keys():
+        return plot_dict["ggsize"]["width"], plot_dict["ggsize"]["height"]
+    return default, default
