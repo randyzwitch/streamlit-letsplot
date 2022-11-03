@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="streamlit-letsplot",
-    version="0.0.2",
+    version="0.0.3",
     author="Randy Zwitch",
     author_email="randy@streamlit.io",
     description="Streamlit component for Lets Plot visualization library",
